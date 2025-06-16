@@ -1,0 +1,5 @@
+pyproject.toml
+vaihtaa_api.egg-info/PKG-INFO
+vaihtaa_api.egg-info/SOURCES.txt
+vaihtaa_api.egg-info/dependency_links.txt
+vaihtaa_api.egg-info/top_level.txt
