@@ -16,7 +16,7 @@ Enables secure queries of account balances and performing transactions with buil
 
 ## Installation
 
-Make sure Python is installed on your system, then run:
+Make sure [Python](https://www.python.org/downloads/) and [Git](https://git-scm.com/downloads) are installed on your system, then run:
 
 ```bash
 pip install git+https://github.com/Ghosteined/vaihtaa_api
@@ -33,6 +33,7 @@ Create an `EconomyConnection` instance specifying the server URL and port.
 ```python
 from vaihtaa_api import EconomyConnection
 
+# Create a local connection on port 5000
 eco = EconomyConnection(url="http://localhost", port=5000)
 ```
 
@@ -41,8 +42,12 @@ eco = EconomyConnection(url="http://localhost", port=5000)
 Retrieve the balance for a specific account string (e.g., `"account-xyz-abc"`) and currency ID (e.g., `1`):
 
 ```python
-balance = eco.get_balance("account-xyz-abc", 1)
-print(f"User has {balance.balance} units of currency {balance.currency_id}.")
+# Get user's balance
+try:
+    balance = eco.get_balance(account="account-xyz-abc", currency_id=1)
+    print(f"User has {balance.get('balance')} units of currency.")
+except Exception:
+    print(f"User was not found.")
 ```
 
 ### Perform a Transaction
@@ -50,7 +55,12 @@ print(f"User has {balance.balance} units of currency {balance.currency_id}.")
 Send funds from an account to a recipient by specifying the sender’s account string, currency ID, recipient ID, and amount:
 
 ```python
-eco.transaction("account-xyz-abc", 1, 42, 50)
+# Get user's balance
+try:
+    transaction = eco.transaction("account-xyz-abc", 1, 42, 50)
+    print(f"Transaction done successfully: {transaction.get('response')}.")
+except Exception:
+    print(f"Transaction failed.")
 ```
 
 ---
