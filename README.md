@@ -55,9 +55,9 @@ except Exception:
 Send funds from an account to a recipient by specifying the sender’s account string, currency ID, recipient ID, and amount:
 
 ```python
-# Get user's balance
+# Perform a transaction
 try:
-    transaction = eco.transaction("account-xyz-abc", 1, 42, 50)
+    transaction = eco.transaction(account="account-xyz-abc", currency_id=1, recipient=42, amount=50)
     print(f"Transaction done successfully: {transaction.get('response')}.")
 except Exception:
     print(f"Transaction failed.")
