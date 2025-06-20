@@ -28,7 +28,7 @@ class EconomyConnection:
 
     def get_balance(self, account: str, currency_id: int, return_code: bool=False):
         if not check_correct(account):
-            raise ValueError(f"Invalid account: {account}")
+            raise EconomyAPIError(f"Invalid account: {account}")
 
         payload = {
             "account": account,
@@ -54,13 +54,13 @@ class EconomyConnection:
 
     def transaction(self, account: str, currency_id: int, recipient: int, amount: int, return_code=False):
         if amount < 1:
-            raise ValueError(f"Invalid amount: {amount}")
+            raise EconomyAPIError(f"Invalid amount: {amount}")
 
         if recipient < 0:
-            raise ValueError(f"Invalid recipient: {recipient}")
+            raise EconomyAPIError(f"Invalid recipient: {recipient}")
 
         if not check_correct(account):
-            raise ValueError(f"Invalid account: {account}")
+            raise EconomyAPIError(f"Invalid account: {account}")
 
         payload = {
             "account": account,
