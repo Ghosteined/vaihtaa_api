@@ -58,7 +58,7 @@ Send funds from an account to a recipient by specifying the sender’s account s
 # Perform a transaction
 try:
     transaction = eco.transaction(account="account-xyz-abc", currency_id=1, recipient=42, amount=50)
-   print(f"Successfully sent money, money received: {transaction.get('received')}")
+    print(f"Successfully sent money, money received: {transaction.get('received')}")
 except EconomyAPIError as e:
     raise Exception(server_response_codes[e.status_code])
 ```
