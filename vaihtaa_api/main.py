@@ -2,7 +2,7 @@
 import requests
 
 # Local
-from .helper import check_correct
+from .helper import check_correct, get_id
 
 class EconomyAPIError(Exception):
     def __init__(self, status_code, message):
@@ -15,7 +15,18 @@ class EconomyConnection:
         self.url = url
         self.port = port
 
-    def get_balance(self, account, currency_id, return_code=False):
+    def get_id_from_account(self, account: str, currency_id: int):
+        if not check_correct(account):
+            return None
+
+        user_id = get_id(account)
+        try:
+            self.get_balance(account=account, currency_id=currency_id, return_code=False)
+            return user_id
+        except Exception:
+            return None
+
+    def get_balance(self, account: str, currency_id: int, return_code: bool=False):
         if not check_correct(account):
             raise ValueError(f"Invalid account: {account}")
 
@@ -27,16 +38,21 @@ class EconomyConnection:
         response = requests.post(f"{self.url}:{self.port}/public/balance", json=payload, timeout=15)
 
         try:
+            response.raise_for_status()
             data = response.json()
-        except ValueError:
-            data = {"error": "Invalid JSON response"}
+        except requests.HTTPError:
+            try:
+                data = response.json()
+            except ValueError:
+                data = {"error": "Invalid JSON response"}
+            raise EconomyAPIError(response.status_code, data.get("error", "Unknown error"))
 
         if response.ok:
             return (response.status_code, data) if return_code else data
         else:
             raise EconomyAPIError(response.status_code, data.get("error", "Unknown error"))
 
-    def transaction(self, account, currency_id, recipient, amount, return_code=False):
+    def transaction(self, account: str, currency_id: int, recipient: int, amount: int, return_code=False):
         if amount < 1:
             raise ValueError(f"Invalid amount: {amount}")
 
