@@ -19,7 +19,7 @@ Enables secure queries of account balances and performing transactions with buil
 Make sure [Python](https://www.python.org/downloads/) and [Git](https://git-scm.com/downloads) are installed on your system, then run:
 
 ```bash
-pip install git+https://github.com/Ghosteined/vaihtaa_api
+pip install --upgrade git+https://github.com/Ghosteined/vaihtaa_api
 ```
 
 ---
@@ -46,6 +46,19 @@ Retrieve the balance for a specific account string (e.g., `"account-xyz-abc"`) a
 try:
     balance = eco.get_balance(account="account-xyz-abc", currency_id=1)
     print("Balance:", balance.get('balance'))
+except EconomyAPIError as e:
+    raise Exception(server_response_codes[e.status_code])
+```
+
+### Get Economy Infos
+
+Retrieve the informations of the specific economy from an account string and a currency ID:
+
+```python
+# Get economy infos
+try:
+    stats = eco.get_economy_stats(account="account-xyz-abc", currency_id=1)
+    print("Stats:", stats.get('stats'))
 except EconomyAPIError as e:
     raise Exception(server_response_codes[e.status_code])
 ```
