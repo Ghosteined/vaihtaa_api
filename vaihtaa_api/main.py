@@ -51,6 +51,32 @@ class EconomyConnection:
             return (response.status_code, data) if return_code else data
         else:
             raise EconomyAPIError(response.status_code, data.get("error", "Unknown error"))
+    
+    def get_economy_stats(self, account: str, currency_id: int, return_code: bool=False):
+        if not check_correct(account):
+            raise EconomyAPIError(401, f"Invalid account: {account}")
+
+        payload = {
+            "account": account,
+            "currency_id": currency_id
+        }
+
+        response = requests.post(f"{self.url}:{self.port}/public/infos", json=payload, timeout=15)
+
+        try:
+            response.raise_for_status()
+            data = response.json()
+        except requests.HTTPError:
+            try:
+                data = response.json()
+            except ValueError:
+                data = {"error": "Invalid JSON response"}
+            raise EconomyAPIError(response.status_code, data.get("error", "Unknown error"))
+
+        if response.ok:
+            return (response.status_code, data) if return_code else data
+        else:
+            raise EconomyAPIError(response.status_code, data.get("error", "Unknown error"))
 
     def transaction(self, account: str, currency_id: int, recipient: int, amount: int, return_code=False):
         if amount < 1:
