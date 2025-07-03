@@ -12,8 +12,10 @@ class EconomyAPIError(Exception):
 
 class EconomyConnection:
     def __init__(self, url: str, port: int):
-        self.url = url
-        self.port = port
+        if not url and not port:
+            self.url = "http://utopia.wisp.uno:11132/"
+        
+        self.url = f"{url}:{port}" if port else url
 
     def get_id_from_account(self, account: str, currency_id: int):
         if not check_correct(account):
