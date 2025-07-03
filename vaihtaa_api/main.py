@@ -14,6 +14,7 @@ class EconomyConnection:
     def __init__(self, url: str = None, port: int = None):
         if not url and not port:
             self.url = "http://utopia.wisp.uno:11132/"
+            return
         
         self.url = f"{url}:{port}" if port else url
 
