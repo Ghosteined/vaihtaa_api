@@ -11,7 +11,7 @@ class EconomyAPIError(Exception):
         self.message = message
 
 class EconomyConnection:
-    def __init__(self, url: str, port: int):
+    def __init__(self, url: str = None, port: int = None):
         if not url and not port:
             self.url = "http://utopia.wisp.uno:11132/"
         
