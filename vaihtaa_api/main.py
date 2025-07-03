@@ -37,7 +37,7 @@ class EconomyConnection:
             "currency_id": currency_id
         }
 
-        response = requests.post(f"{self.url}:{self.port}/public/balance", json=payload, timeout=15)
+        response = requests.post(f"{self.url}/public/balance", json=payload, timeout=15)
 
         try:
             response.raise_for_status()
@@ -63,7 +63,7 @@ class EconomyConnection:
             "currency_id": currency_id
         }
 
-        response = requests.post(f"{self.url}:{self.port}/public/infos", json=payload, timeout=15)
+        response = requests.post(f"{self.url}/public/infos", json=payload, timeout=15)
 
         try:
             response.raise_for_status()
@@ -97,7 +97,7 @@ class EconomyConnection:
             "amount": amount
         }
 
-        response = requests.post(f"{self.url}:{self.port}/public/transaction", json=payload, timeout=15)
+        response = requests.post(f"{self.url}/public/transaction", json=payload, timeout=15)
 
         try:
             data = response.json()
