@@ -14,6 +14,21 @@ Enables secure queries of account balances and performing transactions with buil
 
 ---
 
+## Response codes
+
+Here are the response codes the server can send:
+
+* 200: Success
+* 400: Missing element in the data
+* 401: The given accout is incorrect
+* 402: The data format is incorrect
+* 403: Money sent to it's owner
+* 404: Money missing for transaction
+
+An error will manifest as an `EconomyAPIError`, it's response code in `EconomyAPIError.status_code`.
+
+---
+
 ## Installation
 
 Make sure [Python](https://www.python.org/downloads/) and [Git](https://git-scm.com/downloads) are installed on your system, then run:
@@ -33,8 +48,8 @@ Create an `EconomyConnection` instance specifying the server URL and port.
 ```python
 from vaihtaa_api import EconomyConnection, EconomyAPIError, server_response_codes
 
-# Create a local connection on port 5000
-eco = EconomyConnection(url="http://localhost", port=5000)
+# Create a connection to the servers, if you use another host, you can specify url and port as arguments
+eco = EconomyConnection()
 ```
 
 ### Query Account Balance
